@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MovieService, SearchType } from './services/movie.service';
-import { IonicModule } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-movies',
@@ -14,20 +14,24 @@ export class MoviesPage implements OnInit {
   searchTerm: string = '';
   type: SearchType = SearchType.all;
 
-  isLoading = false;
-
-  constructor(private movieService: MovieService) { }
-
-
-  searchChanged() {
-    this.isLoading = true;
-    this.results = this.movieService.searchData(this.searchTerm, this.type);
-    this.results.subscribe(() => {
-      this.isLoading = false;
-    });
-  }
-
+  constructor(private movieService: MovieService, private loadingCtrl: LoadingController) { }
+  
   ngOnInit() {
   }
 
+  async searchChanged() {
+    // Create a loading spinner
+    const loading = await this.loadingCtrl.create({
+      message: 'Loading...'
+    });
+    // Present the loading spinner
+    await loading.present();
+  
+    // Fetch the data
+    this.results = this.movieService.searchData(this.searchTerm, this.type);
+    this.results.subscribe(() => {
+      // Dismiss the loading spinner when the data is fetched
+      loading.dismiss();
+    });
+  }
 }
