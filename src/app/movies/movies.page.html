@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="searchChanged()"></ion-searchbar>
+  <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="searchChanged()" (ionClear)="searchChanged()"></ion-searchbar>
   <ion-item>
     <ion-label>Select Searchtype</ion-label>
     <ion-select [(ngModel)]="type" (ionChange)="searchChanged()">

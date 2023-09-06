@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { MovieService, SearchType } from './services/movie.service';
 import { LoadingController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-movies',
@@ -19,7 +20,13 @@ export class MoviesPage implements OnInit {
   ngOnInit() {
   }
 
+  clearSearch() {
+    this.searchTerm = '';
+    this.results = of([]);
+  }
+
   async searchChanged() {
+    
     // Create a loading spinner
     const loading = await this.loadingCtrl.create({
       message: 'Loading...'
